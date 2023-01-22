@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/note_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        android:elevation="7dp">
+
+        <LinearLayout
+            android:id="@+id/note_layout_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="6">
+
+                <TextView
+                    android:id="@+id/tv_title_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:padding="10dp"
+                    android:textColor="@color/dark_black"
+                    android:layout_weight="5"/>
+
+                <ImageView
+                    android:id="@+id/img_more_options_card"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/more_vert_icon"
+                    android:layout_weight="1"
+                    android:layout_marginTop="15dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_discription_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="description"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:textColor="@color/dark_black"
+                android:layout_weight="5"/>
+
+        </LinearLayout>
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

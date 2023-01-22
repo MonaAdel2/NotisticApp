@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "76967137543",
+    "project_id": "notisticapp",
+    "storage_bucket": "notisticapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76967137543:android:d39320fc9bc9e950ae75a2",
+        "android_client_info": {
+          "package_name": "com.example.notisticapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76967137543-sc90hh219mvbccfl38rha62jod4548lc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_plR4y8brUHi81a50eAQAA4--b9fbeDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76967137543-sc90hh219mvbccfl38rha62jod4548lc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

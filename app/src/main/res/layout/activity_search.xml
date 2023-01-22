@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchActivity"
+    android:background="@color/black">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="  Search by keyword..."
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_gray"
+            android:padding="15dp"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/search_icon"
+            android:background="@drawable/edit_text_search"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
