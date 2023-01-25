@@ -3,6 +3,7 @@ package com.example.notisticapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -24,6 +27,8 @@ public class NoteActivity extends AppCompatActivity {
     TextInputEditText titleEt, descriptionInputEt;
 
     FirebaseFirestore db ;
+    FirebaseAuth auth;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,8 @@ public class NoteActivity extends AppCompatActivity {
         descriptionInputEt = findViewById(R.id.et_description_note);
 
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +53,8 @@ public class NoteActivity extends AppCompatActivity {
                 if(title.isEmpty()){
                     Toast.makeText(NoteActivity.this, "The title field is required", Toast.LENGTH_SHORT).show();
                 }else{
-                    DocumentReference reference = db.collection("notes").document();
+                    DocumentReference reference = db.collection("notes")
+                            .document(user.getUid()).collection("myNotes").document();
 
                     Map<String, Object> note = new HashMap<>();
                     note.put("title", title);
@@ -68,5 +76,11 @@ public class NoteActivity extends AppCompatActivity {
         });
 
 
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(NoteActivity.this, MainActivity.class));
+            }
+        });
     }
 }
