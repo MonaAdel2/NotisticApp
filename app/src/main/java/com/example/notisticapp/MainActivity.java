@@ -2,13 +2,16 @@ package com.example.notisticapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -35,6 +40,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
@@ -50,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseUser user;
 
+    ArrayList<String> currentIDs;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +76,37 @@ public class MainActivity extends AppCompatActivity {
 
         notesRecycler = findViewById(R.id.recycler_notes_main);
         notesArrayList = new ArrayList<>();
+        currentIDs = new ArrayList<>();
 
 
         notesRecycler.setHasFixedSize(true);
-        notesRecycler.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        notesRecycler.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         notesRecyclerAdapter = new NotesRecyclerAdapter(notesArrayList, MainActivity.this);
         notesRecycler.setAdapter(notesRecyclerAdapter);
 
         eventChangeListener();
+
+//        notesRecyclerAdapter.setOnClick(new Consumer<NoteModel>() {
+//            @Override
+//            public void accept(NoteModel noteModel) {
+//                Intent intent = new Intent(MainActivity.this , SavedNoteActivity.class);
+//                intent.putExtra("noteTitle", noteModel.getTitle()); //************************************
+//                intent.putExtra("noteDesc", noteModel.getDescription()); //************************************
+////                Log.e(TAG, db.collection("notes").document(user.getUid())
+////                        .collection("myNotes").document().getId()+ "**********************************************************************");
+//                db.collection("notes").document(user.getUid())
+//                        .collection("myNotes").document().get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                               String id = documentSnapshot.getId();
+//                               intent.putExtra("noteID", id);
+//                               Log.e(TAG, id + "//////////////////////////////////////////////////////////////");
+//                                startActivity(intent);
+//                            }
+//                        });
+////                startActivity(intent);
+//            }
+//        });
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 for (DocumentChange dc : value.getDocumentChanges()) {
                     if(dc.getType() == DocumentChange.Type.ADDED){
-                        notesArrayList.add(dc.getDocument().toObject(NoteModel.class));
+                        NoteModel noteModel = dc.getDocument().toObject(NoteModel.class);
+                        notesArrayList.add(noteModel);
                     }
 
                     notesRecyclerAdapter.notifyDataSetChanged();

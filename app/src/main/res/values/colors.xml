@@ -12,4 +12,14 @@
     <color name="white_gray">#686868</color>
     <color name="red">#FF3535</color>
     <color name="green">#33BD23</color>
+
+
+    <color name="baby_blue">#9BDEF8</color>
+    <color name="baby_purple">#CD9BF8</color>
+    <color name="baby_green">#9BF8C5</color>
+    <color name="baby_yellow">#F8E19B</color>
+    <color name="baby_orange">#F8B89B</color>
+    <color name="baby_pink">#FFBEED</color>
+
+
 </resources>

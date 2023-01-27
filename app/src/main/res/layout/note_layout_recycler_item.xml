@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="15dp"
         android:elevation="7dp"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/baby_yellow">
 
         <LinearLayout
             android:id="@+id/note_layout_card"
