@@ -14,12 +14,22 @@
     <color name="green">#33BD23</color>
 
 
-    <color name="baby_blue">#9BDEF8</color>
+    <color name="baby_blue">#cfdeff</color>
+    <color name="baby_blue2">#d7f4ff</color>
+
     <color name="baby_purple">#CD9BF8</color>
     <color name="baby_green">#9BF8C5</color>
     <color name="baby_yellow">#F8E19B</color>
     <color name="baby_orange">#F8B89B</color>
-    <color name="baby_pink">#FFBEED</color>
+
+    <color name="baby_pink">#F2C2C2</color>
+    <color name="egg_shell">#F5E4DC</color>
+    <color name="columbia_blue">#C1DDD8</color>
+    <color name="opal">#9EC4C5</color>
+    <color name="antique_white">#F7E5D7</color>
+    <color name="lavender_gray">#C4BFDB</color>
+    <color name="isabelline">#F6F2EC</color>
+    <color name="thistle">#D2C3D8</color>
 
 
 </resources>

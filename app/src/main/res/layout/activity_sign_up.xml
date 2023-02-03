@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:text="New User"
             android:textColor="@color/white"
-            android:textSize="50dp"
+            android:textSize="40sp"
             android:textStyle="bold" />
 
 
@@ -60,7 +60,8 @@
             android:layout_height="wrap_content"
             android:text="Nice To See You Here!"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="18sp"
+            android:layout_marginVertical="8dp"/>
 
         <TextView
             android:id="@+id/tvEmail"
@@ -69,7 +70,7 @@
             android:layout_marginVertical="10dp"
             android:text="E-mail"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/etEmail_signup"
@@ -90,7 +91,7 @@
             android:layout_marginVertical="10dp"
             android:text="Password"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/etPassword_signup"
@@ -113,7 +114,8 @@
             android:text=""
             android:textColor="@color/red"
             android:textSize="18dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginVertical="8dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSignUp_signup"
@@ -142,7 +144,7 @@
                 android:layout_margin="5dp"
                 android:text="Already have an account? "
                 android:textColor="@color/white"
-                android:textSize="18dp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_login_signup"
@@ -151,7 +153,7 @@
                 android:layout_gravity="center"
                 android:text="Log in"
                 android:textColor="@color/white"
-                android:textSize="18dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
         </LinearLayout>

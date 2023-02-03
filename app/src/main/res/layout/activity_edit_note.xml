@@ -7,6 +7,14 @@
     tools:context=".MainActivity"
     android:background="@color/black">
 
+    <ProgressBar
+        android:id="@+id/progress_edit"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@android:color/white"
+        android:visibility="invisible"/>
+
 
 
     <LinearLayout
@@ -27,7 +35,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/custom_button"
-                android:src="@drawable/arrow_back_icon" />
+                android:src="@drawable/arrow_back_icon"
+                android:layout_marginStart="5dp"/>
 
             <ImageButton
                 android:id="@+id/img_btn_save_edit"
@@ -35,7 +44,7 @@
                 android:layout_height="60dp"
                 android:src="@drawable/save_icon"
                 android:background="@drawable/custom_button"
-                android:layout_marginStart="250dp"/>
+                android:layout_marginStart="240dp"/>
 
 
         </LinearLayout>
@@ -46,10 +55,10 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
             android:padding="5dp"
-            android:hint="Title"
+            android:hint=""
             android:textColorHint="@color/white_gray"
             android:textColor="@color/white"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:background="@drawable/edit_text_custom" />
 
         <com.google.android.material.textfield.TextInputEditText
@@ -58,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
             android:padding="5dp"
-            android:hint="Type Something..."
+            android:hint=""
             android:textColorHint="@color/white_gray"
             android:textColor="@color/white"
             android:textSize="20sp"

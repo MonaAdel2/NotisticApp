@@ -29,7 +29,7 @@ public class SavedNoteActivity extends AppCompatActivity {
 
     ImageButton editBtn, backBtn;
     TextView titleTv, descriptionTv;
-    String noteTitle, noteDesc, noteID;
+    String noteID;
     FirebaseFirestore db;
     FirebaseAuth auth;
     FirebaseUser user;
@@ -67,7 +67,8 @@ public class SavedNoteActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(intent);
+                startActivity(new Intent(SavedNoteActivity.this, MainActivity.class));
+
             }
         });
     }

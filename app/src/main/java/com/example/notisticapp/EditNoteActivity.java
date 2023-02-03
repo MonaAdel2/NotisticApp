@@ -3,11 +3,13 @@ package com.example.notisticapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,12 +32,14 @@ public class EditNoteActivity extends AppCompatActivity {
 
     ImageButton backBtn, saveBtn;
     TextInputEditText titleEt, descriptionInputEt;
+    ProgressBar progressBarSave;
     String docID;
 
     FirebaseFirestore db;
     FirebaseAuth auth;
     FirebaseUser user;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +49,9 @@ public class EditNoteActivity extends AppCompatActivity {
         saveBtn = findViewById(R.id.img_btn_save_edit);
         titleEt = findViewById(R.id.et_title_edit);
         descriptionInputEt = findViewById(R.id.et_description_edit);
+        progressBarSave = findViewById(R.id.progress_edit);
 
         docID = getIntent().getStringExtra("docID");
-        Log.e(TAG, docID+"&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -58,8 +62,18 @@ public class EditNoteActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 updateNoteDetails();
-                startActivity(new Intent(EditNoteActivity.this, SavedNoteActivity.class));
+                startActivity(new Intent(EditNoteActivity.this, MainActivity.class));
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // need to check whether the modififed note saved or not ****************
+                startActivity(new Intent(EditNoteActivity.this, NoteActivity.class));
             }
         });
 
@@ -81,6 +95,8 @@ public class EditNoteActivity extends AppCompatActivity {
     }
 
     public void updateNoteDetails(){
+
+        progressBarSave.setVisibility(View.VISIBLE);
         String title = titleEt.getText().toString();
         String desc = descriptionInputEt.getText().toString();
 

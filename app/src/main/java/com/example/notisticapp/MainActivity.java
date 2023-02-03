@@ -13,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,10 +82,11 @@ public class MainActivity extends AppCompatActivity {
 
         notesRecycler.setHasFixedSize(true);
         notesRecycler.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        notesRecyclerAdapter = new NotesRecyclerAdapter(notesArrayList, MainActivity.this);
+        notesRecyclerAdapter = new NotesRecyclerAdapter(notesArrayList, MainActivity.this, MainActivity.this);
         notesRecycler.setAdapter(notesRecyclerAdapter);
 
         eventChangeListener();
+//        updateContent();
 
 //        notesRecyclerAdapter.setOnClick(new Consumer<NoteModel>() {
 //            @Override
@@ -164,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         notesRecyclerAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -173,6 +176,35 @@ public class MainActivity extends AppCompatActivity {
             notesRecyclerAdapter.notifyDataSetChanged();
         }
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        notesRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    public void updateContent(){
+        notesRecyclerAdapter.notifyDataSetChanged();
+        notesRecycler.setHasFixedSize(true);
+        notesRecycler.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        notesRecyclerAdapter = new NotesRecyclerAdapter(notesArrayList, MainActivity.this, MainActivity.this);
+        notesRecycler.setAdapter(notesRecyclerAdapter);
+
+        eventChangeListener();
+        refresh();
+    }
+
+    public void refresh(){
+
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                updateContent();
+            }
+        };
+        handler.postDelayed(runnable, 500);
     }
 
 

@@ -1,10 +1,12 @@
 package com.example.notisticapp;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.text.Layout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,12 +23,17 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -36,11 +43,13 @@ import java.util.function.Consumer;
 public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolder> {
     ArrayList<NoteModel> notesArrayList;
     Context context;
+    Activity activity;
 
     Consumer<NoteModel> onClick;
     FirebaseFirestore db;
     FirebaseUser user;
     FirebaseAuth auth;
+    String id;
 
     public void setOnClick(Consumer<NoteModel> onClick){
         this.onClick = onClick;
@@ -49,6 +58,11 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
     public NotesRecyclerAdapter(ArrayList<NoteModel> notesArrayList, Context context) {
         this.notesArrayList= notesArrayList;
         this.context = context;
+    }
+    public NotesRecyclerAdapter(ArrayList<NoteModel> notesArrayList, Context context, Activity activity) {
+        this.notesArrayList= notesArrayList;
+        this.context = context;
+        this.activity = activity;
     }
 
     @NonNull
@@ -93,6 +107,7 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 QuerySnapshot queryDocumentSnapshots = task.getResult();
                                 String docId = queryDocumentSnapshots.getDocuments().get(position).getId();
+                                id = docId;
                                 Intent intent =  new Intent(v.getContext(), SavedNoteActivity.class);
                                 intent.putExtra("docID", docId);
                                 v.getContext().startActivity(intent);
@@ -118,7 +133,34 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
                 popupMenu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(@NonNull MenuItem item) {
-                        Toast.makeText(context, "The note is deleted", Toast.LENGTH_SHORT).show();
+                        db = FirebaseFirestore.getInstance();
+                        auth = FirebaseAuth.getInstance();
+                        user = FirebaseAuth.getInstance().getCurrentUser();
+
+                        db.collection("notes").document(user.getUid())
+                                .collection("myNotes")
+                                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        QuerySnapshot queryDocumentSnapshots = task.getResult();
+                                        String docId = queryDocumentSnapshots.getDocuments().get(position).getId();
+
+                                        DeleteNote(docId, position);
+//                                        v.getContext().startActivity(new Intent(v.getContext(), MainActivity.class));
+                                        // need to finish the current activity **************
+                                        Intent intent = new Intent();
+                                        intent.setClass(activity, activity.getClass());
+                                        activity.finish();
+                                        activity.startActivity(intent);
+
+
+
+                                    }
+                                });
+
+
+
+
                         return false;
                     }
                 });
@@ -126,7 +168,6 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
                 popupMenu.show();
             }
         });
-
 
 
     }
@@ -140,12 +181,56 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
         allColors.add(R.color.baby_yellow);
         allColors.add(R.color.baby_orange);
 
+        allColors.add(R.color.isabelline);
+        allColors.add(R.color.thistle);
+        allColors.add(R.color.antique_white);
+        allColors.add(R.color.columbia_blue);
+        allColors.add(R.color.baby_blue2);
+        allColors.add(R.color.egg_shell);
+        allColors.add(R.color.lavender_gray);
+        allColors.add(R.color.opal);
+
+
+
         Random randomColor =  new Random();
         int position = randomColor.nextInt(allColors.size());
         return allColors.get(position);
 
     }
 
+    private void DeleteNote(String docID, int pos){
+
+
+        DocumentReference document = db.collection("notes").document(user.getUid())
+                .collection("myNotes")
+                .document(docID);
+        document.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(context, "The note is deleted successfully.", Toast.LENGTH_SHORT).show();
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, "Failed to delete the note, try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+
+    public static void restartActivity(Activity act){
+
+        Intent intent=new Intent();
+        intent.setClass(act, act.getClass());
+        act.finish();
+        act.startActivity(intent);
+
+
+    }
     @Override
     public int getItemCount() {
         return notesArrayList.size();
