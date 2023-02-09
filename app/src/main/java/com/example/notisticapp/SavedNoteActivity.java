@@ -60,7 +60,9 @@ public class SavedNoteActivity extends AppCompatActivity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -68,6 +70,7 @@ public class SavedNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SavedNoteActivity.this, MainActivity.class));
+                finish();
 
             }
         });

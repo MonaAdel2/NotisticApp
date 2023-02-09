@@ -63,16 +63,24 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.toString().trim().isEmpty()){
+                    allNotesArrayList.clear();
+                    searchArrayList.clear();
+                    searchRecyclerAdapter.notifyDataSetChanged();
+                }
+                searchNotes(s.toString().toLowerCase());
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                searchNotes(s.toString());
+
+
             }
         });
     }
@@ -80,6 +88,8 @@ public class SearchActivity extends AppCompatActivity {
     private void searchNotes(String word) {
         allNotesArrayList.clear();
         searchArrayList.clear();
+
+
         db.collection("notes").document(user.getUid())
                 .collection("myNotes").orderBy("title", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -97,7 +107,7 @@ public class SearchActivity extends AppCompatActivity {
 
                         }
                         for (NoteModel note: allNotesArrayList) {
-                            if(note.getTitle().contains(word)){
+                            if(note.getTitle().toLowerCase().contains(word)){
                                 searchArrayList.add(note);
                             }
                         }

@@ -124,8 +124,25 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
                 popupMenu.getMenu().add("Edit").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(@NonNull MenuItem item) {
-                        Intent intent =  new Intent(v.getContext(), EditNoteActivity.class);
-                        v.getContext().startActivity(intent);
+                        db = FirebaseFirestore.getInstance();
+                        auth = FirebaseAuth.getInstance();
+                        user = FirebaseAuth.getInstance().getCurrentUser();
+
+                        db.collection("notes").document(user.getUid())
+                                .collection("myNotes")
+                                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                        QuerySnapshot queryDocumentSnapshots = task.getResult();
+                                        String docId = queryDocumentSnapshots.getDocuments().get(position).getId();
+                                        Intent intent =  new Intent(v.getContext(), EditNoteActivity.class);
+                                        intent.putExtra("docID",docId);
+                                        v.getContext().startActivity(intent);
+                                    }
+                                });
+
+
                         return false;
                     }
                 });
@@ -146,18 +163,14 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
                                         String docId = queryDocumentSnapshots.getDocuments().get(position).getId();
 
                                         DeleteNote(docId, position);
-//                                        v.getContext().startActivity(new Intent(v.getContext(), MainActivity.class));
-                                        // need to finish the current activity **************
+
                                         Intent intent = new Intent();
                                         intent.setClass(activity, activity.getClass());
                                         activity.finish();
                                         activity.startActivity(intent);
 
-
-
                                     }
                                 });
-
 
 
 

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseFirestore db;
     FirebaseUser user;
+    public static final String SHARED_PREFS = "sharedPrefs";
 
     ArrayList<String> currentIDs;
 
@@ -82,38 +84,17 @@ public class MainActivity extends AppCompatActivity {
 
         notesRecycler.setHasFixedSize(true);
         notesRecycler.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+//        notesRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
         notesRecyclerAdapter = new NotesRecyclerAdapter(notesArrayList, MainActivity.this, MainActivity.this);
         notesRecycler.setAdapter(notesRecyclerAdapter);
 
         eventChangeListener();
-//        updateContent();
-
-//        notesRecyclerAdapter.setOnClick(new Consumer<NoteModel>() {
-//            @Override
-//            public void accept(NoteModel noteModel) {
-//                Intent intent = new Intent(MainActivity.this , SavedNoteActivity.class);
-//                intent.putExtra("noteTitle", noteModel.getTitle()); //************************************
-//                intent.putExtra("noteDesc", noteModel.getDescription()); //************************************
-////                Log.e(TAG, db.collection("notes").document(user.getUid())
-////                        .collection("myNotes").document().getId()+ "**********************************************************************");
-//                db.collection("notes").document(user.getUid())
-//                        .collection("myNotes").document().get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                            @Override
-//                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                               String id = documentSnapshot.getId();
-//                               intent.putExtra("noteID", id);
-//                               Log.e(TAG, id + "//////////////////////////////////////////////////////////////");
-//                                startActivity(intent);
-//                            }
-//                        });
-////                startActivity(intent);
-//            }
-//        });
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, NoteActivity.class));
+                finish();
             }
         });
 
@@ -121,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 auth.signOut();
+
+                // remove sharedpreferences
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("user", "false");
+                editor.apply();
                 finish();
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
@@ -130,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                finish();
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
             }
         });
@@ -138,8 +126,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void eventChangeListener() {
+        //orderBy("title", Query.Direction.ASCENDING)
+
         db.collection("notes").document(user.getUid())
-              .collection("myNotes").orderBy("title", Query.Direction.ASCENDING)
+              .collection("myNotes")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -183,30 +173,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
         notesRecyclerAdapter.notifyDataSetChanged();
     }
-
-    public void updateContent(){
-        notesRecyclerAdapter.notifyDataSetChanged();
-        notesRecycler.setHasFixedSize(true);
-        notesRecycler.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        notesRecyclerAdapter = new NotesRecyclerAdapter(notesArrayList, MainActivity.this, MainActivity.this);
-        notesRecycler.setAdapter(notesRecyclerAdapter);
-
-        eventChangeListener();
-        refresh();
-    }
-
-    public void refresh(){
-
-        final Handler handler = new Handler();
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                updateContent();
-            }
-        };
-        handler.postDelayed(runnable, 500);
-    }
-
 
 
 }

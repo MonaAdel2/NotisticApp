@@ -6,9 +6,11 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,9 +26,12 @@ public class LoginActivity extends AppCompatActivity {
     EditText etEmail, etPassword;
     TextView tvForgetPassword, tvResult, tvSignup;
     AppCompatButton btnLogin;
+    CheckBox rememberMeCheckBox;
 
     FirebaseAuth auth;
     FirebaseUser user;
+
+    public static final String SHARED_PREFS = "sharedPrefs";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -41,8 +46,12 @@ public class LoginActivity extends AppCompatActivity {
         tvSignup = findViewById(R.id.tv_signup_login);
         btnLogin = findViewById(R.id.btnLogin);
 
+        rememberMeCheckBox = findViewById(R.id.checkbox_remember_login);
+
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+        
+        checkBox();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +64,15 @@ public class LoginActivity extends AppCompatActivity {
                         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                             @Override
                             public void onSuccess(AuthResult authResult) {
+
+                                if(rememberMeCheckBox.isChecked()){
+                                    // shared prefs to save login
+                                    SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("user", "true");
+                                    editor.apply();
+                                }
+
                                 Toast.makeText(LoginActivity.this, "Login is successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
@@ -92,5 +110,17 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
             }
         });
+    }
+
+    private void checkBox() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String check = sharedPreferences.getString("user", "");
+        if(check.equals("true")){
+
+            Toast.makeText(LoginActivity.this, "Login is successful", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+
+        }
     }
 }

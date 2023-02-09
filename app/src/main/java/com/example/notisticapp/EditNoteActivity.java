@@ -2,12 +2,15 @@ package com.example.notisticapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -31,9 +34,11 @@ public class EditNoteActivity extends AppCompatActivity {
     public static final String TAG = "EditNoteActivity";
 
     ImageButton backBtn, saveBtn;
+    AppCompatButton wSaveBtn, wDiscardBtn;
     TextInputEditText titleEt, descriptionInputEt;
     ProgressBar progressBarSave;
     String docID;
+    Dialog warningDialog;
 
     FirebaseFirestore db;
     FirebaseAuth auth;
@@ -63,17 +68,47 @@ public class EditNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 updateNoteDetails();
                 startActivity(new Intent(EditNoteActivity.this, MainActivity.class));
+                finish();
             }
         });
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // need to check whether the modififed note saved or not ****************
-                startActivity(new Intent(EditNoteActivity.this, NoteActivity.class));
+                // need to check whether the modified note saved or not ****************
+                String newTitle = titleEt.getText().toString().trim();
+                String newDesc = descriptionInputEt.getText().toString().trim();
+
+                db.collection("notes").document(user.getUid())
+                        .collection("myNotes").document(docID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                DocumentSnapshot snapshot = task.getResult();
+                                String oldtitle = snapshot.get("title").toString();
+                                String oldDesc = snapshot.get("description").toString();
+
+                                if(!oldtitle.equals(newTitle) || !oldDesc.equals(newDesc)){
+
+                                    warningDialog = new Dialog(EditNoteActivity.this);
+                                    warningDialog.setContentView(R.layout.save_dialog_custom);
+                                    wDiscardBtn = warningDialog.findViewById(R.id.discard_btn_dialog);
+                                    wSaveBtn = warningDialog.findViewById(R.id.save_btn_dialog);
+                                    warningDialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+                                    warningDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.custom_button));
+                                    warningDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    warningDialog.show();
+                                    warningDialogDisplay();
+
+                                }
+                                else{
+                                    finish();
+                                    startActivity(new Intent(EditNoteActivity.this, MainActivity.class));
+                                }
+                            }
+                        });
+
             }
         });
 
@@ -118,6 +153,28 @@ public class EditNoteActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(EditNoteActivity.this, "The note couldn't be updated..", Toast.LENGTH_SHORT).show();
 
+            }
+        });
+
+    }
+
+    private void warningDialogDisplay(){
+        wSaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                warningDialog.dismiss();
+                updateNoteDetails();
+                startActivity(new Intent(EditNoteActivity.this, MainActivity.class));
+                finish();
+            }
+        });
+
+        wDiscardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                warningDialog.dismiss();
+                startActivity(new Intent(EditNoteActivity.this, MainActivity.class));
+                finish();
             }
         });
 
