@@ -31,5 +31,24 @@
     <color name="isabelline">#F6F2EC</color>
     <color name="thistle">#D2C3D8</color>
 
+    <color name="color1">#F9FFF8</color>
+    <color name="color2">#FFEDF9</color>
+    <color name="color3">#F7E5D7</color>
+    <color name="color4">#C9E5FA</color>
+    <color name="color5">#F4DDEE</color>
+
+    <color name="color6">#ABF7B1</color>
+    <color name="color7">#DDF0C0</color>
+    <color name="color8">#90EE90</color>
+    <color name="color9">#C4B0EC</color>
+    <color name="color10">#98DBB7</color>
+    <color name="color11">#44A6A8</color>
+    <color name="color12">#FF8886</color>
+    <color name="color13">#FFA8B5</color>
+    <color name="color14">#FEFD98</color>
+    <color name="color15">#FFFF9F</color>
+    <color name="color16">#FFC09C</color>
+
+
 
 </resources>

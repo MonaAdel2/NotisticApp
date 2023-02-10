@@ -1,5 +1,6 @@
 package com.example.notisticapp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,13 +13,18 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.reflect.Array;
@@ -33,7 +39,7 @@ public class SearchActivity extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseUser user;
 
-    ArrayList<NoteModel> searchArrayList, allNotesArrayList;
+    ArrayList<NoteModel> searchArrayList2, allNotesArrayList;
     NotesRecyclerAdapter searchRecyclerAdapter;
 
 
@@ -50,10 +56,10 @@ public class SearchActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
-        searchArrayList = new ArrayList<>();
+        searchArrayList2 = new ArrayList<>();
         allNotesArrayList = new ArrayList<>();
 
-        searchRecyclerAdapter = new NotesRecyclerAdapter(searchArrayList, SearchActivity.this, SearchActivity.this);
+        searchRecyclerAdapter = new NotesRecyclerAdapter(searchArrayList2, SearchActivity.this, SearchActivity.this);
         searchRecycler.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         searchRecycler.setAdapter(searchRecyclerAdapter);
 
@@ -68,12 +74,9 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().trim().isEmpty()){
-                    allNotesArrayList.clear();
-                    searchArrayList.clear();
-                    searchRecyclerAdapter.notifyDataSetChanged();
-                }
-                searchNotes(s.toString().toLowerCase());
+//                searchNotes(s.toString().toLowerCase());
+
+                search2(s.toString().toLowerCase());
 
             }
 
@@ -87,11 +90,12 @@ public class SearchActivity extends AppCompatActivity {
 
     private void searchNotes(String word) {
         allNotesArrayList.clear();
-        searchArrayList.clear();
+        searchArrayList2.clear();
 
+//        .orderBy("title", Query.Direction.ASCENDING)
 
         db.collection("notes").document(user.getUid())
-                .collection("myNotes").orderBy("title", Query.Direction.ASCENDING)
+                .collection("myNotes")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -108,12 +112,36 @@ public class SearchActivity extends AppCompatActivity {
                         }
                         for (NoteModel note: allNotesArrayList) {
                             if(note.getTitle().toLowerCase().contains(word)){
-                                searchArrayList.add(note);
+                                searchArrayList2.add(note);
                             }
                         }
                         searchRecyclerAdapter.notifyDataSetChanged();
 
                     }
                 });
+    }
+
+    public  void search2(String word){
+        searchArrayList2.clear();
+
+        db.collection("notes").document(user.getUid())
+                .collection("myNotes")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot document: queryDocumentSnapshots){
+                            NoteModel noteModel = new NoteModel(document.getString("title"), document.getString("description"));
+                            if(noteModel.getTitle().toLowerCase().contains(word)){
+                                searchArrayList2.add(noteModel);
+                            }
+
+                        }
+                        searchRecyclerAdapter.notifyDataSetChanged();
+
+                    }
+
+                });
+
+
     }
 }

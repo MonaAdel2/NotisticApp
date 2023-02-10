@@ -7,11 +7,42 @@
     tools:context=".MainActivity"
     android:background="@color/black">
 
+    <LinearLayout
+        android:id="@+id/no_notes_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+
+        <ImageView
+            android:id="@+id/img_no_notes_main"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            android:src="@drawable/vector1" />
+
+        <TextView
+            android:id="@+id/tv_no_notes_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Create your first note!"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -35,9 +66,9 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginVertical="6dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/custom_button"
-                android:src="@drawable/search_icon"
-                android:layout_marginRight="10dp"/>
+                android:src="@drawable/search_icon" />
 
             <ImageButton
                 android:id="@+id/img_btn_logout"
@@ -46,31 +77,17 @@
                 android:layout_marginVertical="6dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/custom_button"
-                android:src="@drawable/power_icon"
-                />
+                android:src="@drawable/power_icon" />
 
 
         </LinearLayout>
-
-<!--        <ImageView-->
-<!--            android:layout_width="350dp"-->
-<!--            android:layout_height="350dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:src="@drawable/vector1" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:text="Create your first note!"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="20sp" />-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_notes_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
+
 
 
     </LinearLayout>

@@ -20,8 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
     AppCompatButton addBtn;
     ImageButton searchBtn, logoutBtn;
+    public static LinearLayout noNotesLayout;
+    ImageView noNotesImg;
+    TextView noNotesTv;
 
     RecyclerView notesRecycler;
     ArrayList<NoteModel> notesArrayList;
@@ -73,6 +78,14 @@ public class MainActivity extends AppCompatActivity {
         searchBtn = findViewById(R.id.img_btn_search);
         logoutBtn = findViewById(R.id.img_btn_logout);
 
+        noNotesLayout = findViewById(R.id.no_notes_layout);
+        noNotesTv = findViewById(R.id.tv_no_notes_main);
+        noNotesImg = findViewById(R.id.img_no_notes_main);
+
+        noNotesLayout.setVisibility(View.GONE);
+//        noNotesImg.setVisibility(View.GONE);
+//        noNotesTv.setVisibility(View.GONE);
+
         auth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
@@ -82,13 +95,17 @@ public class MainActivity extends AppCompatActivity {
         currentIDs = new ArrayList<>();
 
 
+
         notesRecycler.setHasFixedSize(true);
         notesRecycler.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
 //        notesRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
         notesRecyclerAdapter = new NotesRecyclerAdapter(notesArrayList, MainActivity.this, MainActivity.this);
         notesRecycler.setAdapter(notesRecyclerAdapter);
 
+
+
         eventChangeListener();
+
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void eventChangeListener() {
         //orderBy("title", Query.Direction.ASCENDING)
+//        noNotesLayout.setVisibility(View.GONE);
+
 
         db.collection("notes").document(user.getUid())
               .collection("myNotes")
@@ -145,6 +164,13 @@ public class MainActivity extends AppCompatActivity {
 
                     notesRecyclerAdapter.notifyDataSetChanged();
 
+                    if(notesArrayList.size() == 0){
+                        noNotesLayout.setVisibility(View.VISIBLE);
+
+                    }else{
+                        noNotesLayout.setVisibility(View.INVISIBLE);
+                    }
+
                 }
 
             }
@@ -157,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         notesRecyclerAdapter.notifyDataSetChanged();
 
+
     }
 
     @Override
@@ -166,12 +193,14 @@ public class MainActivity extends AppCompatActivity {
             notesRecyclerAdapter.notifyDataSetChanged();
         }
 
+
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         notesRecyclerAdapter.notifyDataSetChanged();
+
     }
 
 

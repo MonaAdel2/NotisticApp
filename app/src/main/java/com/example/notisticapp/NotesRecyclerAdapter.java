@@ -77,22 +77,29 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         int colorCode = GetRandomColor();
+//        boolean isVisible = false;
         holder.note.setBackgroundColor(holder.itemView.getResources().getColor(colorCode, null));
         holder.noteTitle.setText(notesArrayList.get(position).getTitle());
+        holder.descriptionLayout.setVisibility(View.GONE);
         holder.noteDesc.setText(notesArrayList.get(position).getDescription());
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onClick(View v) {
-//                // open the note clicked
-//                if(onClick != null){
-//                    onClick.accept(notesArrayList.get(position));
-//                }
-//                Intent intent =  new Intent(v.getContext(), SavedNoteActivity.class);
-//                v.getContext().startActivity(intent);
-//            }
-//        });
+
+
+        holder.descriptionArrowImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.descriptionLayout.getVisibility() == View.VISIBLE){
+                    holder.descriptionLayout.setVisibility(View.GONE);
+                    holder.descriptionArrowImg.setRotationX(holder.descriptionArrowImg.getRotationX()+180);
+                }
+                else{
+                    holder.descriptionLayout.setVisibility(View.VISIBLE);
+                    holder.descriptionArrowImg.setRotationX(holder.descriptionArrowImg.getRotationX()-180);
+
+                }
+
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,8 +173,9 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
 
                                         Intent intent = new Intent();
                                         intent.setClass(activity, activity.getClass());
-                                        activity.finish();
                                         activity.startActivity(intent);
+                                        activity.finish();
+
 
                                     }
                                 });
@@ -203,6 +211,24 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
         allColors.add(R.color.lavender_gray);
         allColors.add(R.color.opal);
 
+        allColors.add(R.color.color1);
+        allColors.add(R.color.color2);
+        allColors.add(R.color.color3);
+        allColors.add(R.color.color4);
+        allColors.add(R.color.color5);
+        allColors.add(R.color.color6);
+        allColors.add(R.color.color7);
+        allColors.add(R.color.color8);
+        allColors.add(R.color.color9);
+        allColors.add(R.color.color10);
+        allColors.add(R.color.color11);
+        allColors.add(R.color.color12);
+        allColors.add(R.color.color13);
+        allColors.add(R.color.color14);
+        allColors.add(R.color.color15);
+        allColors.add(R.color.color16);
+
+
 
 
         Random randomColor =  new Random();
@@ -235,15 +261,7 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
 
     }
 
-    public static void restartActivity(Activity act){
 
-        Intent intent=new Intent();
-        intent.setClass(act, act.getClass());
-        act.finish();
-        act.startActivity(intent);
-
-
-    }
     @Override
     public int getItemCount() {
         return notesArrayList.size();
@@ -252,8 +270,9 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView noteTitle, noteDesc;
-        LinearLayout note;
-        ImageView menuImg;
+//        TextView noteTitle;
+        LinearLayout note, descriptionLayout;
+        ImageView menuImg, descriptionArrowImg;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -261,7 +280,9 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
             noteTitle = itemView.findViewById(R.id.tv_title_card);
             noteDesc = itemView.findViewById(R.id.tv_discription_card);
             note = itemView.findViewById(R.id.note_layout_card);
+            descriptionLayout = itemView.findViewById(R.id.description_layout_card);
             menuImg = itemView.findViewById(R.id.img_more_options_card);
+            descriptionArrowImg = itemView.findViewById(R.id.description_arrow_card);
         }
     }
 }

@@ -59,7 +59,7 @@ public class NoteActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = titleEt.getText().toString();
+                String title = titleEt.getText().toString().trim();
                 String desc = descriptionInputEt.getText().toString();
 
                 if(title.isEmpty()){
@@ -95,7 +95,7 @@ public class NoteActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = titleEt.getText().toString();
+                String title = titleEt.getText().toString().trim();
                 String desc = descriptionInputEt.getText().toString();
 
                 // dialog alarm save or not
@@ -121,9 +121,6 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void warningDialogDisplay(String title, String desc){
-//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-//        LayoutInflater layoutInflater = this.getLayoutInflater();
-//        alert.setView(layoutInflater.inflate(R.layout.save_dialog_custom, null)).create().show();
         wSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
