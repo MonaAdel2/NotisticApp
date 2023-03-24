@@ -195,39 +195,44 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
 
     private int GetRandomColor() {
         List<Integer> allColors = new ArrayList<>();
+        allColors.add(R.color.color1);
         allColors.add(R.color.baby_blue);
         allColors.add(R.color.baby_pink);
         allColors.add(R.color.baby_purple);
+        allColors.add(R.color.color3);
         allColors.add(R.color.baby_green);
         allColors.add(R.color.baby_yellow);
-        allColors.add(R.color.baby_orange);
 
+
+        allColors.add(R.color.color15);
         allColors.add(R.color.isabelline);
+        allColors.add(R.color.color8);
         allColors.add(R.color.thistle);
         allColors.add(R.color.antique_white);
         allColors.add(R.color.columbia_blue);
+        allColors.add(R.color.color13);
         allColors.add(R.color.baby_blue2);
         allColors.add(R.color.egg_shell);
+        allColors.add(R.color.color11);
         allColors.add(R.color.lavender_gray);
         allColors.add(R.color.opal);
 
-        allColors.add(R.color.color1);
+
         allColors.add(R.color.color2);
-        allColors.add(R.color.color3);
+        allColors.add(R.color.baby_orange);
         allColors.add(R.color.color4);
         allColors.add(R.color.color5);
         allColors.add(R.color.color6);
         allColors.add(R.color.color7);
-        allColors.add(R.color.color8);
+
         allColors.add(R.color.color9);
         allColors.add(R.color.color10);
-        allColors.add(R.color.color11);
-        allColors.add(R.color.color12);
-        allColors.add(R.color.color13);
-        allColors.add(R.color.color14);
-        allColors.add(R.color.color15);
-        allColors.add(R.color.color16);
 
+        allColors.add(R.color.color12);
+
+        allColors.add(R.color.color14);
+
+        allColors.add(R.color.color16);
 
 
 

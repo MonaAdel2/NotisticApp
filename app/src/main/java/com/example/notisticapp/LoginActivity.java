@@ -73,14 +73,14 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.apply();
                                 }
 
-                                Toast.makeText(LoginActivity.this, "Login is successful", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(LoginActivity.this, "Login is successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Wrong email or password.", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }else{
@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
         String check = sharedPreferences.getString("user", "");
         if(check.equals("true")){
 
-            Toast.makeText(LoginActivity.this, "Login is successful", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(LoginActivity.this, "Login is successful", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
 

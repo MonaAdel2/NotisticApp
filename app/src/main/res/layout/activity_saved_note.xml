@@ -7,64 +7,69 @@
     tools:context=".MainActivity"
     android:background="@color/black">
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginVertical="20dp">
+        android:layout_height="match_parent">
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
 
-            <ImageButton
-                android:id="@+id/img_btn_back_saved"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/custom_button"
-                android:src="@drawable/arrow_back_icon"
-                android:layout_marginStart="5dp"/>
+                <ImageButton
+                    android:id="@+id/img_btn_back_saved"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/custom_button"
+                    android:src="@drawable/arrow_back_icon"
+                    android:layout_marginStart="5dp"/>
 
-            <ImageButton
-                android:id="@+id/img_btn_edit_saved"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/edit_icon"
-                android:background="@drawable/custom_button"
-                android:layout_marginStart="240dp"/>
+                <ImageButton
+                    android:id="@+id/img_btn_edit_saved"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/edit_icon"
+                    android:background="@drawable/custom_button"
+                    android:layout_marginStart="240dp"/>
 
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_title_saved"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:padding="5dp"
+                android:text=""
+                android:textColorHint="@color/white_gray"
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                android:background="@drawable/edit_text_custom" />
+
+            <TextView
+                android:id="@+id/tv_description_saved"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:padding="5dp"
+                android:text=""
+                android:textColorHint="@color/white_gray"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:background="@drawable/edit_text_custom"/>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_title_saved"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:padding="5dp"
-            android:text=""
-            android:textColorHint="@color/white_gray"
-            android:textColor="@color/white"
-            android:textSize="40sp"
-            android:background="@drawable/edit_text_custom" />
-
-        <TextView
-            android:id="@+id/tv_description_saved"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:padding="5dp"
-            android:text=""
-            android:textColorHint="@color/white_gray"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:background="@drawable/edit_text_custom"/>
-
-    </LinearLayout>
-
+    </ScrollView>
 
 </RelativeLayout>

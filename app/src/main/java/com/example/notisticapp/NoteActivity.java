@@ -75,7 +75,7 @@ public class NoteActivity extends AppCompatActivity {
                     reference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(NoteActivity.this, "The note is created successfully", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(NoteActivity.this, "The note is created successfully", Toast.LENGTH_SHORT).show();
                             // intent to main activity
                             startActivity(new Intent(NoteActivity.this, MainActivity.class));
                             finish();
