@@ -38,8 +38,8 @@ https://github.com/MonaAdel2/NotisticApp/assets/96449268/a3d657f0-620f-4bf8-81e0
 $ git clone https://github.com/MonaAdel2/NotisticApp
 ```
 
-**Dependencies**
-# Install the following dependencies
+# Dependencies
+**Install the following dependencies**
 Firebase:
 ```bash
   implementation 'com.google.firebase:firebase-firestore:24.1.1'
