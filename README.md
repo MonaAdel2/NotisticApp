@@ -39,7 +39,7 @@ $ git clone https://github.com/MonaAdel2/NotisticApp
 ```
 
 # Dependencies
-**Install the following dependencies**
+**Install the following dependencies**</br></br>
 Firebase:
 ```bash
   implementation 'com.google.firebase:firebase-firestore:24.1.1'
